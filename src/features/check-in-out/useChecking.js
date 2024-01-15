@@ -1,17 +1,18 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import { updateBooking } from "../../services/apiBookings";
 import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const queryClient = new QueryClient();
 function useChecking() {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { mutate: checkin, isLoading: isCheckingIn } = useMutation({
-    mutationFn: (bookingId) =>
+    mutationFn: ({ bookingId, breakfast }) =>
       updateBooking(bookingId, {
         status: "checked-in",
         isPaid: HiOutlineArrowTopRightOnSquare,
+        ...breakfast,
       }),
     onSuccess: (data) => {
       toast.success(`Booking #${data.id} succesfully checked in`);
