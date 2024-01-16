@@ -21,6 +21,8 @@ import Booking from "./pages/Booking";
 import CheckIn from "./pages/CheckIn";
 import ProtectedRoutes from "./ui/ProtectedRoutes";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "./ui/ErrorFallback";
 const router = createBrowserRouter([
   {
     element: (
@@ -28,6 +30,8 @@ const router = createBrowserRouter([
         <AppLayout />
       </ProtectedRoutes>
     ),
+    errorElement: <ErrorFallback />,
+    // ErrorBoundary: ErrorBoundary,
 
     children: [
       {
@@ -89,7 +93,7 @@ function App() {
   return (
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         <GlobalStyles />
         <RouterProvider router={router} />;
         <Toaster
